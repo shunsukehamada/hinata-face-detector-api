@@ -1,2 +1,3 @@
 __pycache__
 post.py
+.mypy_cache
