@@ -13,7 +13,7 @@ class RequestBody(TypedDict):
     image_base: str
 
 
-PORT = cast(int, os.environ["PORT"]) if "PORT" in os.environ else 5000
+PORT = int(os.environ.get("PORT", "5000"))
 app = Flask(__name__)
 cors = CORS(app)
 
@@ -38,6 +38,11 @@ def post_predict() -> str:
     img_raw = np.frombuffer(base64.b64decode(body["image_base"]), np.uint8)
     img: cv2.Mat = cv2.imdecode(img_raw, cv2.IMREAD_UNCHANGED)
     return json.dumps(predict.get_predictions(img))  # type:ignore
+
+
+@app.route("/")
+def hello() -> str:
+    return "hello"
 
 
 if __name__ == "__main__":
